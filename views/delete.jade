@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to my collection of opinions. Answer at least 10 questions, otherwise your answers will not be saved. You can add your own questions if you like.
+  div.description CRUD with Jade
+  a(href="/") Create | 
+  a(href="/read") Read | 
+  a(href="/update") Update | 
+  a(href="/delete") Delete 
+
+  div
+    form(action="/removepost", method="post")
+        input(type="text", placeholder="Opinion ID", name="deleteID", required)
+        button(type="submit", style={display: "inline"}) Delete 
+
+  div.randomOpinions
+  table
+      each n in entries
+        tr
+          td
+            = n.opinion
+          td
+            span - #{n.first}
+          td
+            span OpinionID: #{n._id}
+
+    //- ul
+      each opinion in opinions
+        li= opinion
+
+
+
+
+
