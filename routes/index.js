@@ -2,15 +2,29 @@ var express = require("express");
 var router = express.Router();
 const ObjectID = require("mongodb").ObjectID;
 
-/* GET home page. */
+//GET the home page
 router.get("/", (req, res) => {
   const opinions = res.locals.opinions;
   opinions
-    .find()
+    .aggregate([{ $sample: { size: 5 } }])
     .toArray()
     .then((results) => {
-      console.log("Results: ", results);
-      res.render("index", {
+      res.render("home", {
+        title: "The Opinion Database",
+        entries: results,
+      });
+    })
+    .catch((error) => console.error(error));
+});
+
+//GET the create page
+router.get("/create", (req, res) => {
+  const opinions = res.locals.opinions;
+  opinions
+    .aggregate([{ $sample: { size: 5 } }])
+    .toArray()
+    .then((results) => {
+      res.render("create", {
         title: "Create",
         entries: results,
       });
@@ -18,16 +32,17 @@ router.get("/", (req, res) => {
     .catch((error) => console.error());
 });
 
-router.post("/", (req, res) => {
+//POST opinion to database
+router.post("/create", (req, res) => {
   const opinions = res.locals.opinions;
   opinions
     .insertOne({
-      first: req.body.firstName,
-      last: req.body.lastName,
-      opinion: req.body.opinion,
+      first: req.body.firstName.toString(),
+      last: req.body.lastName.toString(),
+      opinion: req.body.opinion.toString(),
     })
     .then((result) => {
-      console.log(result);
+      // console.log(result);
     })
     .catch((error) => {
       console.error(error);
@@ -35,6 +50,7 @@ router.post("/", (req, res) => {
   res.redirect("/");
 });
 
+//GET delete page
 router.get("/delete", function (req, res, next) {
   const opinions = res.locals.opinions;
   opinions
@@ -49,28 +65,62 @@ router.get("/delete", function (req, res, next) {
     .catch((error) => console.error(error));
 });
 
-router.post("/removepost", (req, res, next) => {
-  let opinions = res.locals.opinions;
+//POST a request to delete a post
+router.post("/delete", (req, res) => {
+  const opinions = res.locals.opinions;
   opinions
-    .deleteOne({ _id: ObjectID(req.body.deleteID) })
+    .deleteOne({ _id: ObjectID(req.body.deleteID.toString()) })
     .then((result) => {
       if (result.ok) {
-        console.log("Deleted: ", result);
-        res.redirect("/");
+        res.redirect("/delete");
       }
     })
     .catch((error) => console.log(error));
   res.redirect("/delete");
 });
 
+//GET the read page
 router.get("/read", (req, res) => {
-  res.render("read", { title: "Read" });
+  const opinions = res.locals.opinions;
+  opinions
+    .aggregate([{ $sample: { size: 50 } }])
+    .toArray()
+    .then((results) => {
+      res.render("read", { title: "Read", entries: results });
+    })
+    .catch((error) => console.error(error));
 });
 
+//POST the filters to the read page
+
+//GET the update page
 router.get("/update", (req, res) => {
   res.render("update", {
     title: "Update",
   });
+});
+
+//POST an update to an opinion
+router.post("/update", (req, res) => {
+  const opinions = res.locals.opinions;
+  opinions
+    .updateOne(
+      { _id: ObjectID(req.body.updateID) },
+      {
+        $set: {
+          first: req.body.firstName.toString(),
+          last: req.body.lastName.toString(),
+          opinion: req.body.opinion.toString(),
+        },
+      }
+    )
+    .then((results) => {
+      res.render("update", {
+        title: "Update",
+        entries: results,
+      });
+    })
+    .catch((error) => console.error(error));
 });
 
 module.exports = router;

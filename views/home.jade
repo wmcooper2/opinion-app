@@ -1,0 +1,35 @@
+extends layout
+
+block content
+
+    a(href="/") Home | 
+    a(href="/create") Create | 
+    a(href="/read") Read | 
+    a(href="/update") Update | 
+    a(href="/delete") Delete 
+
+    h1= title
+    p Welcome to the opinions database. Everyone has an opinion or two, or three, or... yeah. Do you need to vent your frustrations, or do you want to shower praise on something? 
+    ul
+        li This is not Twitter; you don't need to register.
+        li This is not 4-chan; no images are uploaded.
+        li This is not Facebook; you don't have to worry about friends and family finding out what you think.
+    p Just put whatever you want in the opinion box as long as its under 300 characters (opinions should be short).
+    
+    p Make sure you keep the ID# of the opinion you add, otherwise it might be here forever.
+
+    div.randomOpinions Here are some random opinions...
+    table
+        each n in entries
+            tr
+            td
+                = n.opinion
+            td
+                span - #{n.first}
+
+
+
+
+
+
+

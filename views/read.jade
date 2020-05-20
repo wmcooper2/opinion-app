@@ -1,10 +1,30 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to my collection of opinions. Answer at least 10 questions, otherwise your answers will not be saved. You can add your own questions if you like.
-  div.description CRUD with Jade
-  a(href="/") Create | 
+
+  a(href="/") Home | 
+  a(href="/create") Create | 
   a(href="/read") Read | 
   a(href="/update") Update | 
   a(href="/delete") Delete 
+
+  h1= title
+  p Bored at work? Interested in what others have to say? Then you can read through the opinions that others have posted here.
+  p Apply the filters to find opinions in your area...
+
+
+  div.randomOpinions Here are some random opinions...
+  table
+      each n in entries
+          tr
+          td
+              = n.opinion
+          td
+              span - #{n.first}
+
+
+
+
+
+
+
