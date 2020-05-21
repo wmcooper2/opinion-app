@@ -1,0 +1,20 @@
+extends header
+
+block description
+  h2= title
+
+  p Do you have an opinion that you regret posting? Then don't worry. You can delete it here. Bad opinions will be filtered out by my (soon to be made) post analyzer. Hurtful things may be kept, but hateful things will be removed.
+
+  p Enter the opinion.
+
+  div.container-fluid
+    form(action="/delete", method="post")
+      div.input-group-append
+        input(class="form-control", type="text", name="opinion", placeholder="Opinion", maxlength="300", size="50", required)
+        button(class="btn btn-danger", type="submit") Delete 
+
+  table.table
+      each n in entries
+        tr
+          td #{n.opinion}
+          td #{n.first}

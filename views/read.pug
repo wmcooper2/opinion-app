@@ -1,0 +1,20 @@
+extends header
+
+block description
+    h2= title
+    p Bored at work? Interested in what others have to say? Then you can read through the opinions that others have posted here.
+    p Apply the filters to find opinions in your area...
+
+    div.container-fluid Here are some random opinions...
+    table.table
+        each n in entries
+            tr
+                td #{n.opinion}
+                td #{n.first}
+
+
+
+
+
+
+

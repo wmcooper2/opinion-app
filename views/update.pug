@@ -1,0 +1,12 @@
+extends header
+
+block description
+  h2= title
+  p Update an opinion here.
+
+  div.container-fluid
+    form(action="/update", method="post")
+      div.input-group-append
+        input(class="form-control", type="text", name="firstName", placeholder="First", maxlength="30")
+        input(class="form-control", type="text", name="opinion", placeholder="Opinion", maxlength="300", size="50")
+        button(class="btn btn-secondary", type="submit") Update 

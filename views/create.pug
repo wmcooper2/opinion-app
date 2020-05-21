@@ -1,0 +1,19 @@
+extends header
+
+block description
+  h2= title
+  p Create an entry in the database here. You can be "anonymous", too.
+
+  div.container-fluid
+    form(action="/create", method="post")
+      div.input-group-append
+        input(class="form-control", type="text", name="firstName", placeholder="First", maxlength="30", required)
+        input(class="form-control", type="text", name="opinion", placeholder="Opinion", maxlength="300", size="50", required)
+        button(class="btn btn-primary" type="submit") Submit
+
+  p Here are some random opinions for inspiration...
+  table.table
+    each n in entries
+      tr
+        td #{n.opinion}
+        td #{n.first}

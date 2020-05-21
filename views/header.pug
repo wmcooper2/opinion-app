@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= siteName
+    nav(class="navbar navbar-expand-md navbar-light")
+        a(class="nav-link" href="/") Home 
+        a(class="nav-link" href="/create") Create
+        a(class="nav-link" href="/read") Read
+        a(class="nav-link" href="/update") Update
+        a(class="nav-link" href="/delete") Delete
+
+    block description
+        p some text
